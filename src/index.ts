@@ -1,9 +1,9 @@
 import express, { Express } from 'express';
 import bodyParser from 'body-parser';
-import Router from "./routes/routes"
+import Router from './routes/routes';
 
 const app = express();
-const port = 8090;
+const port = 3051;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.send('Hello World!');
