@@ -1,8 +1,6 @@
 import express, { Express } from 'express';
-import { PrismaClient } from '@prisma/client';
-import Router from '../src/routes/routes';
-import BodyParser from 'body-parser';
 import bodyParser from 'body-parser';
+import Router from "./routes/routes"
 
 const app = express();
 const port = 8090;
