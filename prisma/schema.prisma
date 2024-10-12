@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:homefundSQL16%5E%23%21@103.193.176.166:3306/perpustakaan"
+}
+
+model buku {
+  id            Int    @id @default(autoincrement())
+  judul         String @db.VarChar(255)
+  penulis       String @db.VarChar(255)
+  kategori      String @db.VarChar(255)
+  penerbit      String @db.VarChar(255)
+  jumlahStok    Int
+  tahunPenerbit Int
+}
