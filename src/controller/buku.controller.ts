@@ -1,3 +1,4 @@
+import { bukuUpdated } from './../models/buku.dto';
 import { BukuServices } from './../services/buku.services';
 import { Request, Response } from 'express';
 import { bukuCreate } from '../models/buku.dto';
@@ -80,6 +81,16 @@ export class BukuController {
       return res.status(error.status).json(error);
     } else {
       return res.status(success.status).json(success);
+    }
+  }
+  public async bukuUpdated(req: Request, res: Response): Promise<any> {
+    const bukuServices = new BukuServices();
+    const bukubyid1 = req.params.bukubyid1;
+    const [succes, error] = await bukuServices.updateBuku(Number(bukubyid1));
+    if (error.error) {
+      return res.status(error.status).json(error);
+    } else {
+      return res.status(succes.status).json(succes);
     }
   }
 }

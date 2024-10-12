@@ -1,5 +1,4 @@
-import { Public } from '@prisma/client/runtime/library';
-import { bukuCreate } from './../models/buku.dto';
+import { bukuCreate, bukuUpdated } from './../models/buku.dto';
 import { Express } from 'express';
 import { prisma } from './../database/database';
 import {
@@ -107,5 +106,58 @@ export class BukuServices {
       };
     }
     return [resData, resError];
+  }
+  public async updateBuku(
+    idBukuu: number
+  ): Promise<[ResponseModelOnlyMessage, ResponseWhenError]> {
+    let resMessage = {} as ResponseModelOnlyMessage;
+    let resError = {} as ResponseWhenError;
+
+    try {
+      const getbukubyid1 = await prisma.buku.findFirst({
+        where: {
+          id: Number(idBukuu),
+        },
+      });
+      if (!getbukubyid1) {
+        resError = {
+          status: StatusCode.NOT_FOUND,
+          message: "buku with this by id was'nt found",
+          error: true,
+        };
+
+        return [resMessage, resError];
+      }
+      // jika jumlahstok buku kosong maka {ini kondisinya}
+      if (getbukubyid1.jumlahStok === 0) {
+        resError = {
+          status: StatusCode.BAD_REQUEST,
+          message: 'jumlah buku sudah kosong',
+          error: true,
+        };
+      }
+
+      const updateBukuu = await prisma.buku.update({
+        where: {
+          id: Number(idBukuu),
+        },
+        data: {
+          jumlahStok: getbukubyid1.jumlahStok - 1,
+        },
+      });
+      resMessage = {
+        status: StatusCode.OK,
+        message: 'succesfuly get',
+        error: false,
+      };
+    } catch (error) {
+      resError = {
+        status: StatusCode.BAD_REQUEST,
+        message: `Something went wrong:${error}`,
+        error: true,
+      };
+    }
+
+    return [resMessage, resError];
   }
 }
