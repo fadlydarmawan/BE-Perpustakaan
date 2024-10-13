@@ -93,4 +93,19 @@ export class BukuController {
       return res.status(succes.status).json(succes);
     }
   }
+  public async searchBukuAll(req: Request, res: Response): Promise<any> {
+    const bukuServices = new BukuServices();
+    const { limit = 10, page = 1, search } = req.query;
+
+    const [succes, error] = await bukuServices.searchBuku(
+      page as number,
+      limit as number,
+      search as string | undefined
+    );
+    if (error.error) {
+      return res.status(error.status).json(error);
+    } else {
+      return res.status(succes.status).json(succes);
+    }
+  }
 }

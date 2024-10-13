@@ -160,4 +160,53 @@ export class BukuServices {
 
     return [resMessage, resError];
   }
+  public async searchBuku(
+    page: number = 1,
+    limit: number = 10,
+    search?: string
+  ): Promise<[ResponseModelWithPageTotalResultAndLimit, ResponseWhenError]> {
+    let resData = {} as ResponseModelWithPageTotalResultAndLimit;
+    let resError = {} as ResponseWhenError;
+    try {
+      const whereCondition: any = {};
+
+      if (search) {
+        whereCondition.OR = [
+          {
+            judul: search, // lebih spesifik
+          },
+        ];
+      }
+      const getAllbuku = await prisma.buku.findMany({
+        where: whereCondition,
+        take: Number(limit),
+        skip: (page - 1) * Number(limit),
+        orderBy: {
+          id: 'asc',
+        },
+      });
+      const totalResult = await prisma.buku.count({
+        where: whereCondition,
+      });
+      resData = {
+        status: StatusCode.OK,
+        message:
+          getAllbuku.length === 0
+            ? 'tidak berhasil mendapatkan apa yang dicari'
+            : 'berhasil', //teneray operator utk pengganti if else . kondisi
+        error: false,
+        total_result: totalResult,
+        total_page: Math.ceil(totalResult / limit),
+        limit: Number(limit),
+        data: getAllbuku,
+      };
+    } catch (error) {
+      resError = {
+        status: StatusCode.BAD_REQUEST,
+        message: `Terjadi error: ${error}`,
+        error: true,
+      };
+    }
+    return [resData, resError];
+  }
 }
