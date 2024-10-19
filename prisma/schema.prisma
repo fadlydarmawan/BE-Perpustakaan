@@ -16,3 +16,11 @@ model buku {
   jumlahStok    Int
   tahunPenerbit Int
 }
+
+model User {
+  user_id  Int    @id @default(autoincrement())
+  username String @db.VarChar(255)
+  password String @db.VarChar(255)
+  nama     String @db.VarChar(255)
+  no_tlp   Int
+}

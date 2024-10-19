@@ -1,4 +1,4 @@
-import { bukuUpdated } from './../models/buku.dto';
+
 import { BukuServices } from './../services/buku.services';
 import { Request, Response } from 'express';
 import { bukuCreate } from '../models/buku.dto';
