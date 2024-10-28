@@ -17,7 +17,7 @@ model buku {
   tahunPenerbit Int
 }
 
-model User {
+model user {
   user_id  Int    @id @default(autoincrement())
   username String @db.VarChar(255)
   password String @db.VarChar(255)

@@ -1,6 +1,5 @@
 import { bukuCreate, bukuUpdated } from './../models/buku.dto';
-import { Express } from 'express';
-import { prisma } from './../database/database';
+import  Express  from 'express';
 import {
   ResponseModelOnlyMessage,
   ResponseModelWithData,
@@ -10,19 +9,21 @@ import {
   ResponseModelWithToken,
   ResponseWhenError,
 } from '../constant/response.model';
-import { promises } from 'dns';
+import { prisma } from "../database/database";
+
 import StatusCode from '../constant/status.codes';
-import { error } from 'console';
-import { number } from 'joi';
+
+
 
 export class BukuServices {
   public async createBuku(
     dto: bukuCreate
   ): Promise<[ResponseModelOnlyMessage, ResponseWhenError]> {
+    
     let resMessage = {} as ResponseModelOnlyMessage;
     let resError = {} as ResponseWhenError;
     try {
-      const createBukus = await prisma.buku.create({
+      await prisma.buku.create({
         data: {
           judul: dto.judul,
           penulis: dto.penulis,
@@ -32,6 +33,9 @@ export class BukuServices {
           tahunPenerbit: Number(dto.tahunPenerbit),
         },
       });
+
+      console.log("servicebody",dto)
+
 
       resMessage = {
         status: StatusCode.OK,

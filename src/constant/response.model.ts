@@ -67,5 +67,5 @@ export interface ResponseModelWithToken {
   data: any;
   token: string;
   message: string;
-  error: false;
+  error: boolean;
 }

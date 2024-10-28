@@ -4,7 +4,8 @@ import { bukuCreate } from '../models/buku.dto';
 import Joi from 'joi';
 
 export class BukuController {
-  public async createBuku(req: Request, res: Response): Promise<any> {
+  
+  public async createBuku(req: Request, res: Response) : Promise <any> {
     const bukuServices = new BukuServices();
     const dto: bukuCreate = req.body;
     const schema = Joi.object()
@@ -13,7 +14,7 @@ export class BukuController {
           'string.base': `judul should be a type of string`,
           'string.empty': `judul cannot be an empty field`,
           'any.required': `judul is a required field`,
-        }),
+        }), 
         penulis: Joi.string().required().messages({
           'string.base': `penulis should be a type of string`,
           'string.empty': `penulis cannot be an empty field`,
@@ -43,6 +44,7 @@ export class BukuController {
       .unknown(true);
 
     const { error } = schema.validate(dto);
+    console.log("DTO -> ", dto)
 
     if (error != undefined) {
       return res.status(400).json({

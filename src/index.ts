@@ -10,16 +10,17 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
+app.use(bodyParser.urlencoded({ extended: true }));
 
-Router(app); //manggil routes
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+Router(app); 
 
 //app use
-app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 app.use(cors(corsOptions));
 app.use(cors());
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`); //manggil routes musti diakhir
+});
